@@ -19,5 +19,10 @@ Minimal client/server message passing over UNIX signals.
 ## Example
 - `./client 4242 "Hi"` sends "Hi" to the server.
 
+## Technical Notes
+- Bitwise protocol: client sends chars MSB->LSB via SIGUSR1/2; server acks to pace transmission.
+- Uses `sigaction` with SA_SIGINFO and restart-safe handlers; avoids global static buffers when possible.
+- Timing-sensitive on heavy systems; if messages drop, consider tiny usleep in client after each bit.
+
 ## Author
 - Oualid Obbad (@oualidobbad)
